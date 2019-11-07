@@ -1,11 +1,8 @@
 @interface PhoneSettingsNetworksController
 
 -(BOOL)_isInManualMode;
--(BOOL)_isInAutomaticMode;
 
--(void)_setAutomaticSwitchOn:(BOOL)arg1 animated:(BOOL)arg2 ;
--(void)_autoSwitchTurnedOff;
--(void)_autoSwitchTurnedOn;
+-(void)_setAutomaticSwitchOff:(BOOL)arg1 animated:(BOOL)arg2 ;
 @end
 
 %hook PhoneSettingsNetworksController
@@ -20,7 +17,7 @@
     [self _autoSwitchTurnedOff];
     // the visual status of the switch doesn't get updated to reflect the change to manual mode
     // this method sets it to ON, visually and changes the value idk where
-    [self _setAutomaticSwitchOn:true animated:false];
+    [self _setAutomaticSwitchOn:false animated:false];
   }
 }
 
@@ -60,7 +57,7 @@
 
 /***
 
-state 1 = auto
+state 1 = manual
 state 2 = manual
 
 
