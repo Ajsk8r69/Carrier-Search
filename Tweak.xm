@@ -3,14 +3,14 @@
 -(BOOL)_isInManualMode;
 -(BOOL)_isInAutomaticMode;
 
--(void)_setAutomaticSwitchOn:(BOOL)arg1 animated:(BOOL)arg2 ;
--(void)_autoSwitchTurnedOff;
--(void)_autoSwitchTurnedOn;
+-(BOOL)_setAutomaticSwitchOn:(BOOL)arg1 animated:(BOOL)arg2 ;
+-(BOOL)_autoSwitchTurnedOff;
+-(BOOL)_autoSwitchTurnedOn;
 @end
 
 %hook PhoneSettingsNetworksController
 
--(void)viewDidAppear:(BOOL)arg1
+-(BOOL)viewDidAppear:(BOOL)arg1
 {
   %orig;
 
@@ -20,7 +20,7 @@
     [self _autoSwitchTurnedOff];
     // the visual status of the switch doesn't get updated to reflect the change to manual mode
     // this method sets it to ON, visually and changes the value idk where
-    [self _setAutomaticSwitchOn:true animated:false];
+    [self _setAutomaticSwitchOn: false animated: true];
   }
 }
 
@@ -29,10 +29,10 @@
   %orig;
   // if the view shows manual mode and user switches to auto, again do what was done in viewDidAppear
   [self _autoSwitchTurnedOff];
-  [self _setAutomaticSwitchOn:true animated:false];
+  [self _setAutomaticSwitchOn: False animated: True];
 }
 
--(void)listItemSelected:(id)arg1
+-(BOOL)listItemSelected:(id)arg1
 {
   // the manual mode is SET only when a network is selected from list
   // change the status of the button to off
@@ -53,15 +53,15 @@
 
 %ctor
 {
-  dlopen("/System/Library/PreferenceBundles/CarrierSettings.bundle/CarrierSettings", RTLD_LAZY);
+  dlopen("/System/cellular/PreferenceBundles/CarrierSettings.bundle/CarrierSettings", RTLD_LAZY);
   %init(PrefsListController = objc_getClass((kCFCoreFoundationVersionNumber >= 1240.10) ? "PSUIPrefsListController" : "PrefsListController"));
 }
 
 
 /***
 
-state 1 = auto
-state 2 = manual
+state 1 = manual
+state 2 = auto
 
 
 
