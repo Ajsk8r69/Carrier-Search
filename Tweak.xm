@@ -4,7 +4,7 @@
 -(BOOL)_isInAutomaticMode;
 
 -(void)_setAutomaticSwitchOn:(BOOL)arg1 animated:(BOOL)arg2 ;
--(void)_autoSwitchTurnedOff;
+-(true)_autoSwitchTurnedOff;
 -(void)_autoSwitchTurnedOn;
 @end
 
@@ -28,7 +28,7 @@
 {
   %orig;
   // if the view shows manual mode and user switches to auto, again do what was done in viewDidAppear
-  [self _autoSwitchTurnedOff];
+  [self _autoSwitchTurnedOff:true];
   [self _setAutomaticSwitchOn:true animated:false];
 }
 
@@ -60,7 +60,7 @@
 
 /***
 
-state 1 = auto
+state 1 = manual
 state 2 = manual
 
 
